@@ -5,6 +5,7 @@ import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.Log;
 import android.view.Surface;
 
 import java.io.IOException;
@@ -66,27 +67,33 @@ public class ViewPlayer implements
         mSurfaceTexture.getTransformMatrix(sTMatrix);
     }
 
-    public void openRemoteFile(String path) {
+    public boolean setMediaPlayerFromUri(Uri uri) {
+        boolean result = false;
         try {
-            mMediaPlayer.setDataSource(path);
+            if (uri.toString().startsWith("http")) {
+                mMediaPlayer.setDataSource(uri.toString());
+            } else {
+                mMediaPlayer.setDataSource(mContext, uri);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void setMediaPlayerFromUri(Uri uri) {
-        try {
-            mMediaPlayer.setDataSource(mContext, uri);
-        } catch (IOException e) {
-            e.printStackTrace();
+            return result;
         }
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMediaPlayer.setLooping(true);
+        result = true;
+        return result;
     }
 
     public void prepare() {
         if (mMediaPlayer != null) {
             mMediaPlayer.prepareAsync();
+        }
+    }
+
+    public void reset() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.reset();
         }
     }
 

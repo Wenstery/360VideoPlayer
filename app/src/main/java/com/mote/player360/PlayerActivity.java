@@ -74,7 +74,13 @@ public class PlayerActivity extends Activity {
             glSurfaceView.setEGLContextClientVersion(2);
         }
         mPlayer = new ViewPlayer(this);
-        mPlayer.setMediaPlayerFromUri(Uri.parse(videoPath));
+        mPlayer.reset();
+        boolean setUri = mPlayer.setMediaPlayerFromUri(Uri.parse(videoPath));
+        if (!setUri) {
+            this.onDestroy();
+            this.finish();
+            return;
+        }
         mPlayer.setRenderCallback(new ViewPlayer.RenderCallback() {
             @Override
             public void renderImmediately() {
@@ -102,7 +108,7 @@ public class PlayerActivity extends Activity {
         mPlayer.setViewPlayerCallback(new ViewPlayer.PlayerCallback() {
             @Override
             public void updateProgress() {
-                if (seekBarTouched == false) {
+                if (!seekBarTouched) {
                     int pos = mPlayer.getCurrentPosition();
                     if (pos >= 0) {
                         processSeekBar.setProgress(pos);
