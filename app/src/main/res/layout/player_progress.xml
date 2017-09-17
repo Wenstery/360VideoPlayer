@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#70000000"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+    <ToggleButton
+        android:id="@+id/play_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="6dp"
+        android:background="@drawable/video_toolbar_bg_play"
+        android:text=""
+        android:textOff=""
+        android:textOn=""/>
+
+    <RelativeLayout
+        android:id="@+id/video_progress_tool"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/time_cur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="6dp"
+            android:text="@string/init_time"
+            android:textColor="#f5f5f5"/>
+
+        <TextView
+            android:id="@+id/time_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="6dp"
+            android:text="@string/init_time"
+            android:textColor="#f5f5f5"/>
+
+        <SeekBar
+            android:id="@+id/progress_seek_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/time_cur"
+            android:layout_toLeftOf="@id/time_total"
+            android:max="100"
+            android:maxHeight="2dp"
+            android:minHeight="2dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:progress="0"
+            android:progressDrawable="@drawable/video_toolbar_prg_style"
+            android:secondaryProgress="0"
+            android:thumb="@drawable/progress_index"
+            android:thumbOffset="0dip"/>
+    </RelativeLayout>
+</LinearLayout>
