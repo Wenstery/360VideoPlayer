@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#0099cc"
+    tools:context="com.mote.player360.MainActivity">
+    <item
+        android:id="@+id/plane_item"
+        android:enabled="true"
+        android:title="@string/item_plane" />
+    <item
+        android:id="@+id/pano_item"
+        android:enabled="true"
+        android:title="@string/item_pano" />
+</menu>

@@ -6,12 +6,13 @@ import android.os.Bundle;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-    private Button mStartBtn;
     private EditText mEditText;
     private String video_path;
 
@@ -37,10 +38,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         video_path = mEditText.getText().toString();
-        mStartBtn = (Button) findViewById(R.id.player_start);
-        mStartBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.plane_item:
+                break;
+            case R.id.pano_item:
                 if (video_path.equals("") || video_path.equals(getString(R.string.init_path))) {
                     video_path = "android.resource://" + getPackageName() + "/" + R.raw.lanbo;
                 }
@@ -48,10 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 intent.setClass(MainActivity.this, PlayerActivity.class);
                 intent.putExtra(PlayerActivity.VideoPath, video_path);
                 startActivity(intent);
-
-            }
-        });
-
+                break;
+        }
+        return true;
     }
 
     @Override
