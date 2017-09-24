@@ -32,10 +32,14 @@ public class OpenglRender implements GLSurfaceView.Renderer {
     private int mHeight;
     private int[] frameBuffers = null;
     private int[] frameBufferTextures = null;
+    private boolean bPlane;
 
     public OpenglRender(Context context) {
         mContext = context;
-        init();
+    }
+
+    public void setPlaneConf(boolean isPlane) {
+        bPlane = isPlane;
     }
 
     public void setViewPlayer(ViewPlayer player) {
@@ -50,8 +54,10 @@ public class OpenglRender implements GLSurfaceView.Renderer {
         renderLayerList = new ArrayList<>();
         planeRenderLayer = new PlaneRenderLayer(mContext);
         renderLayerList.add(planeRenderLayer);
-        sphereRenderLayer = new SphereRenderLayer(mContext, orientationActive);
-        renderLayerList.add(sphereRenderLayer);
+        if (!bPlane) {
+            sphereRenderLayer = new SphereRenderLayer(mContext, orientationActive);
+            renderLayerList.add(sphereRenderLayer);
+        }
         transformRenderLayer = new TransformRenderLayer(mContext);
         renderLayerList.add(transformRenderLayer);
         onRenderLayerChanged(mWidth, mHeight);
@@ -153,11 +159,11 @@ public class OpenglRender implements GLSurfaceView.Renderer {
 
     public void destroy() {
         destroyFrameBuffers();
-        for (int i = 0; i < renderLayerList.size(); i++) {
-            renderLayerList.get(i).destroy();
-        }
         if (getSphereRenderLayer() != null) {
             getSphereRenderLayer().getSensorProcessor().releaseResources();
+        }
+        for (int i = 0; i < renderLayerList.size(); i++) {
+            renderLayerList.get(i).destroy();
         }
     }
 

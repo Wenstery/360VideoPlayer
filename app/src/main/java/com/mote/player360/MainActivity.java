@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,8 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private EditText mEditText;
-    private String video_path;
+    private String mVideoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                video_path = mEditText.getText().toString();
+                mVideoPath = mEditText.getText().toString();
             }
         });
-        video_path = mEditText.getText().toString();
+        mVideoPath = mEditText.getText().toString();
 
     }
 
@@ -51,19 +53,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        boolean bPlane = false;
         switch (id) {
             case R.id.plane_item:
+                bPlane = true;
                 break;
             case R.id.pano_item:
-                if (video_path.equals("") || video_path.equals(getString(R.string.init_path))) {
-                    video_path = "android.resource://" + getPackageName() + "/" + R.raw.lanbo;
-                }
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, PlayerActivity.class);
-                intent.putExtra(PlayerActivity.VideoPath, video_path);
-                startActivity(intent);
                 break;
         }
+        if (mVideoPath.equals("") || mVideoPath.equals(getString(R.string.init_path))) {
+            mVideoPath = "android.resource://" + getPackageName() + "/" + R.raw.lanbo;
+        }
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, PlayerActivity.class);
+        intent.putExtra(PlayerActivity.VideoPath, mVideoPath);
+        intent.putExtra(PlayerActivity.PlaneConf, bPlane);
+        startActivity(intent);
         return true;
     }
 

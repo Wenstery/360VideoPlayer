@@ -144,5 +144,4 @@ public class SphereRenderLayer extends RenderLayer {
         mScale = Math.max(0.122f, Math.min(1.0f, mScale));
     }
 
-
 }

@@ -44,9 +44,10 @@ public class PlayerActivity extends Activity {
     private ViewPlayer mPlayer;
     private OpenglRender mRender;
     private GestureProcessor mGestureProcessor;
-    private boolean isOrientationActive = true;
-    private boolean isGestureActive = true;
-    public static String VideoPath;
+    private boolean isOrientationActive;
+    private boolean isGestureActive;
+    public static final String VideoPath = "videoPath";
+    public static final String PlaneConf = "planeConf";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +59,19 @@ public class PlayerActivity extends Activity {
         setContentView(R.layout.activity_player);
         toolVisible = true;
         init();
-
     }
 
     private void init() {
         viewInit();
         String videoPath = getIntent().getStringExtra(VideoPath);
+        boolean bPlane = getIntent().getBooleanExtra(PlaneConf, false);
+        if (bPlane) {
+            isGestureActive = false;
+            isOrientationActive = false;
+        } else {
+            isGestureActive = true;
+            isOrientationActive = false;
+        }
         glSurfaceView = (GLSurfaceView) findViewById(R.id.surface_view);
         ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         ConfigurationInfo info = am.getDeviceConfigurationInfo();
@@ -91,7 +99,9 @@ public class PlayerActivity extends Activity {
         mPlayer.prepare();
         mRender = new OpenglRender(this);
         mRender.setViewPlayer(mPlayer);
+        mRender.setPlaneConf(bPlane);
         mRender.setOrientationActive(isOrientationActive);
+        mRender.init();
         glSurfaceView.setRenderer(mRender);
         glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
         glSurfaceView.setClickable(true);
@@ -136,7 +146,6 @@ public class PlayerActivity extends Activity {
         });
         mGestureProcessor = new GestureProcessor(this, mRender, isGestureActive);
         mGestureProcessor.setToolShowCallback(toolShowCallback);
-
     }
 
     public void viewInit() {
