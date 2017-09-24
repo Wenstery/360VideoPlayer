@@ -1,2 +1,2 @@
 # 360VideoPlayer
-A player for video of 360 degrees
+Android video player of 360 degrees(pano) by using OpenGL ES.
